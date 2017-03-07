@@ -5,17 +5,17 @@
  * on (BLACK or WHITE) is passed in as "side". The constructor must finish
  * within 30 seconds.
  */
-Player::Player(Side side) {
+Player::Player(Side s) {
     // Will be set to true in test_minimax.cpp.
     testingMinimax = false;
     
-    Board *board = new Board();
-    Side otherSide;
-    if (side == "WHITE") {
-        otherSide = "BLACK";
+    this->board = new Board();
+    this->side = s;
+    if (this->side == WHITE) {
+        this->otherSide = BLACK;
     }
     else {
-        otherSide = "WHITE";
+        this->otherSide = WHITE;
     }
     
 
@@ -51,7 +51,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
      * process the opponent's opponents move before calculating your own move
      */
 
-    board->(*opponetsMove, side);
+    this->board->doMove(opponentsMove, otherSide);
     
 
         
