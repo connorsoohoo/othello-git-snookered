@@ -4,6 +4,9 @@
 #include <iostream>
 #include "common.hpp"
 #include "board.hpp"
+#include <vector>
+#include <tuple>
+
 using namespace std;
 
 class Player {
@@ -17,6 +20,8 @@ public:
     Side side;
     Side otherSide;
     Board *board;
+    Vector<Move> mySpaces;
+    Vector<Move> oppSpace;
 
     // Flag to tell if the player is running within the test_minimax context
     bool testingMinimax;
