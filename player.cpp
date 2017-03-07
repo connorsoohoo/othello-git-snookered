@@ -50,34 +50,52 @@ Player::~Player() {
  * return nullptr.
  */
 Move *Player::doMove(Move *opponentsMove, int msLeft) {
-    /*
-     * TODO: Implement how moves your AI should play here. You should first
-     * process the opponent's opponents move before calculating your own move
-     */
 
     this->board->doMove(opponentsMove, otherSide);
-    vector<Move> possibleMoves = getPossibleMoves();      
-    srand (time(NULL));
-    int randomNum = rand() % possibleMoves.size();
-    this->board->doMove(&possibleMoves[randomNum], side);     
+    vector<Move*> possibleMoves = getPossibleMoves();      
+    int size = possibleMoves.size();
+    if (size == 0) {
+       return nullptr;
+    }
+    //srand (time(NULL));
+    //int randomNum = rand() % size;
+    this->board->doMove(possibleMoves[0], side);     
+    Move *chosen = possibleMoves[0];
+    cerr<<"Move chosen: "<<chosen->getX()<<" "<<chosen->getY()<<"\n";
 
-    return &possibleMoves[randomNum];
+    return possibleMoves[0];
 }
+
+//Updates the board to reflect the change in the move
+void Player::updateBoard(Move *ourMove) {
+   board->doMove(ourMove, side);
+   //Make a for loop to change our board
+}
+   
 
 /*
  * This function goes though all of the points on the board and sees if a 
  * move can be placed there.
  */
-vector<Move> Player::getPossibleMoves() {
-    vector<Move> possible;
+vector<Move*> Player::getPossibleMoves() {
+    vector<Move*> possible;
     for (int row = 0; row < 8; row++) {
        for (int col = 0; col < 8; col++) {
             Move *m = new Move(row, col);
             bool poss = this->board->checkMove(m, side);
             if (poss) {
-                possible.push_back(*m);
+                cerr<<"passed "<<m->getX()<<" "<<m->getY()<<"\n";
+                possible.push_back(m);
+            }
+            else {
+                cerr<<"!pass "<<m->getX()<<" "<<m->getY()<<"\n";
             }
         }
     }
+    cerr<<"Possible moves: \n";
+    for (int i = 0; i < possible.size(); i++) {
+       cerr<<possible[i]->getX()<<" "<<possible[i]->getY()<<"\n";
+    }
+
     return possible;
 }

@@ -16,7 +16,8 @@ public:
     ~Player();
 
     Move *doMove(Move *opponentsMove, int msLeft);
-    vector<Move> getPossibleMoves();
+    vector<Move*> getPossibleMoves();
+    void updateBoard(Move *ourMove);
     
     Side side;
     Side otherSide;
