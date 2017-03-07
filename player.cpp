@@ -1,5 +1,7 @@
 #include "player.hpp"
 #include <vector>
+#include <stdlib.h>
+#include <time.h>
 
 using namespace std;
 /*
@@ -19,23 +21,7 @@ Player::Player(Side s) {
     }
     
     this->board = new Board();
-    this->board->set;
     this->side = s;
-    this->otherSide = os;
-    
-    //Get the starting pieces and put them into our vectors  
-    for (int row = 0; row < 8; row++) {
-        for (int col = 0; col < 8; col++) {
-           if (board.get(s, row, col)) {
-              Move myMove = new Move(row, col);
-              this.mySpaces.push_back(myMove);
-           }
-           else if (board.get(os, row, col)) {
-              Move oppMove = new Move(row, col);
-              this.oppSpace.push_back(oppMove);
-           }
-        }
-    }
     
     /*
      * TODO: Do any initialization you need to do here (setting up the board,
@@ -70,33 +56,28 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
      */
 
     this->board->doMove(opponentsMove, otherSide);
-    this->oppSpace.push_back(opponetsMove);
-        
+    vector<Move> possibleMoves = getPossibleMoves();      
+    srand (time(NULL));
+    int randomNum = rand() % possibleMoves.size();
+    this->board->doMove(&possibleMoves[randomNum], side);     
 
-        
-
-    return nullptr;
+    return &possibleMoves[randomNum];
 }
 
-//The point of this function is to get all of the possible moves. We are going
-//to do this by iterating through all of the spaces we own and then seeing if 
-//there's a space of the opposite color near it
-Vector<Move> *Player::getPossibleMoves() {
-    int xCor = 0;
-    int yCor = 0;
-    Vector<Moves> possible;
-    for (int i = 0; i < this.mySpaces.size(); i++) {
-        xCor = this.mySpaces[i].getX();
-        yCor = this.mySpaces[i].getY();
-          
- 
+/*
+ * This function goes though all of the points on the board and sees if a 
+ * move can be placed there.
+ */
+vector<Move> Player::getPossibleMoves() {
+    vector<Move> possible;
+    for (int row = 0; row < 8; row++) {
+       for (int col = 0; col < 8; col++) {
+            Move *m = new Move(row, col);
+            bool poss = this->board->checkMove(m, side);
+            if (poss) {
+                possible.push_back(*m);
+            }
+        }
     }
-
-//Use this function to explore immediate 8 squares around our central one
-//try to find square of opposite color        
-Vector<Move> *Player::branch(int x, int y) {
-   
-
-
-
-
+    return possible;
+}
