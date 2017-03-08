@@ -23,11 +23,6 @@ Player::Player(Side s) {
     
     this->board = new Board();
     
-    /*
-     * TODO: Do any initialization you need to do here (setting up the board,
-     * precalculating things, etc.) However, remember that you will only have
-     * 30 seconds.
-     */
 }
 
 /*
@@ -57,21 +52,13 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     if (size == 0) {
        return nullptr;
     }
-    //srand (time(NULL));
-    //int randomNum = rand() % size;
-    this->board->doMove(possibleMoves[0], side);     
-    Move *chosen = possibleMoves[0];
-    cerr<<"Move chosen: "<<chosen->getX()<<" "<<chosen->getY()<<"\n";
+    int randomNum = rand() % size;
+    this->board->doMove(possibleMoves[randomNum], side);     
+    Move *chosen = possibleMoves[randomNum];
 
-    return possibleMoves[0];
+    return possibleMoves[randomNum];
 }
 
-//Updates the board to reflect the change in the move
-void Player::updateBoard(Move *ourMove) {
-   board->doMove(ourMove, side);
-   //Make a for loop to change our board
-}
-   
 
 /*
  * This function goes though all of the points on the board and sees if a 
@@ -84,17 +71,9 @@ vector<Move*> Player::getPossibleMoves() {
             Move *m = new Move(row, col);
             bool poss = this->board->checkMove(m, side);
             if (poss) {
-                cerr<<"passed "<<m->getX()<<" "<<m->getY()<<"\n";
                 possible.push_back(m);
             }
-            else {
-                cerr<<"!pass "<<m->getX()<<" "<<m->getY()<<"\n";
-            }
         }
-    }
-    cerr<<"Possible moves: \n";
-    for (int i = 0; i < possible.size(); i++) {
-       cerr<<possible[i]->getX()<<" "<<possible[i]->getY()<<"\n";
     }
 
     return possible;
