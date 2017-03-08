@@ -12,7 +12,8 @@ using namespace std;
 Player::Player(Side s) {
     // Will be set to true in test_minimax.cpp.
     testingMinimax = false;
-    
+    this->side = s;
+   
     if (this->side == WHITE) {
         this->otherSide = BLACK;    
     }
@@ -21,7 +22,6 @@ Player::Player(Side s) {
     }
     
     this->board = new Board();
-    this->side = s;
     
     /*
      * TODO: Do any initialization you need to do here (setting up the board,

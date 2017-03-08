@@ -1,4 +1,4 @@
-Caltech CS2 Assignment 9: Othello
+Caltech CS2 Assignment 9: Othello 
 Created by Marcus Dominguez-Kuhne and Connor Soohoo
 
 Git $n00ker3d 
