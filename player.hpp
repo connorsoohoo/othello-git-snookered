@@ -17,7 +17,8 @@ public:
 
     Move *doMove(Move *opponentsMove, int msLeft);
     vector<Move*> getPossibleMoves();
-    void updateBoard(Move *ourMove);
+    Move *findBestPossibleMove(vector<Move*> possibleMoves);
+    int computeScore(Move * aMove);
     
     Side side;
     Side otherSide;

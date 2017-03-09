@@ -53,10 +53,14 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 
     this->board->doMove(opponentsMove, otherSide);
     vector<Move*> possibleMoves = getPossibleMoves();      
-    int size = possibleMoves.size();
+    unsigned int size = possibleMoves.size();
     if (size == 0) {
        return nullptr;
     }
+    if (this->board->isDone())
+    {
+		return nullptr;
+	}
     //srand (time(NULL));
     //int randomNum = rand() % size;
     this->board->doMove(possibleMoves[0], side);     
@@ -66,10 +70,34 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     return possibleMoves[0];
 }
 
-//Updates the board to reflect the change in the move
-void Player::updateBoard(Move *ourMove) {
-   board->doMove(ourMove, side);
-   //Make a for loop to change our board
+// Finds and returns the move with the best heuristic score
+Move * Player::findBestPossibleMove(vector <Move*> possibleMoves) {
+   
+   // create an array with indices that correspond to the move index
+   vector <int> scores;
+   
+   int bestScore = 0;
+   int bestScoreIndex = 0;
+   for (unsigned int i = 0; i < possibleMoves.size(); i++)
+   {
+	   Move *aMove = possibleMoves.at(i);
+	   scores.push_back(this->computeScore(aMove));
+	   if (scores.at(i) > bestScore)
+	   {
+		   bestScoreIndex = i;
+		   bestScore = scores.at(i);
+	   }
+   }
+   
+   return possibleMoves.at(bestScoreIndex);
+}
+
+// Computes the heuristic score for a given move
+int Player::computeScore(Move *aMove)
+{
+	
+	
+	return 0;
 }
    
 
@@ -93,7 +121,7 @@ vector<Move*> Player::getPossibleMoves() {
         }
     }
     cerr<<"Possible moves: \n";
-    for (int i = 0; i < possible.size(); i++) {
+    for (unsigned int i = 0; i < possible.size(); i++) {
        cerr<<possible[i]->getX()<<" "<<possible[i]->getY()<<"\n";
     }
 
