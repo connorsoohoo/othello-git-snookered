@@ -76,7 +76,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 // Finds and returns the move with the best heuristic score
 Move * Player::findBestPossibleMove(vector <Move*> possibleMoves) {
    
-   // create an array with indices that correspond to the move index
+   // create vector with indices that correspond to the move index
    vector <int> scores;
    
    int bestScore = 0;
@@ -98,9 +98,39 @@ Move * Player::findBestPossibleMove(vector <Move*> possibleMoves) {
 // Computes the heuristic score for a given move
 int Player::computeScore(Move *aMove)
 {
+	// iterate in all 8 directions to get the total
+	int total = 0;
 	
+	for (int x = -1; x < 2; x++) {
+		for (int y = -1; y < 2; y++) {
+			total += this->addScoreInDirection(aMove, x, y);
+		}
+	}
 	
-	return 0;
+	return total;
+}
+
+// adds the score to the heuristic for one direction of searching
+int Player::addScoreInDirection(Move *aMove, int dx, int dy)
+{
+	int dirTotal = 0;
+	int x = aMove->getX();
+	int y = aMove->getY();
+	
+	x += dx;
+	y += dy;
+	while (this->board->onBoard(x, y) && this->board->get(this->otherSide, x, y)) {
+		dirTotal += 1;
+		x += dx;
+		y += dy;
+	}
+	// If not on the board after iteration, means other has taken over row
+	if (!this->board->onBoard(x, y))
+	{
+		dirTotal = 0;
+	}
+	
+	return dirTotal;
 }
 
 /*
@@ -117,11 +147,11 @@ vector<Move*> Player::getPossibleMoves() {
                 possible.push_back(m);
             }
         }
-    }
+    }/*
     cerr<<"Possible moves: \n";
     for (unsigned int i = 0; i < possible.size(); i++) {
        cerr<<possible[i]->getX()<<" "<<possible[i]->getY()<<"\n";
     }
-
+	*/
     return possible;
 }

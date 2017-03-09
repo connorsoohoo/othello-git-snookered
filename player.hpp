@@ -19,6 +19,7 @@ public:
     vector<Move*> getPossibleMoves();
     Move *findBestPossibleMove(vector<Move*> possibleMoves);
     int computeScore(Move * aMove);
+    int addScoreInDirection(Move *aMove, int dx, int dy);
     
     Side side;
     Side otherSide;
