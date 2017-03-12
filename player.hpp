@@ -16,16 +16,21 @@ public:
     ~Player();
 
     Move *doMove(Move *opponentsMove, int msLeft);
-    vector<Move*> getPossibleMoves();
-    Move *findBestPossibleMove(vector<Move*> possibleMoves);
-    int computeScore(Move * aMove);
-    int addScoreInDirection(Move *aMove, int dx, int dy);
+    vector<Move*> getPossibleMoves(Board *theBoard, Side s);
+    Move *findBestPossibleMove(vector<Move*> possibleMoves, Side s, bool iter);
+    int computeScore(Move * aMove, Board *theBoard, int total, Side s, bool iter);
+    int addScoreInDirection(Move *aMove, int dx, int dy, bool mySide);
+    bool isCornerMove(Move *aMove);
+    bool isBadMove(Move *aMove);
+    bool isEdge(Move *aMove);
     
     Side side;
     Side otherSide;
     Board *board;
     vector<Move> mySpaces;
     vector<Move> oppSpace;
+    
+    
 
     // Flag to tell if the player is running within the test_minimax context
     bool testingMinimax;
